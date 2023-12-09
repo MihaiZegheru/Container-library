@@ -18,56 +18,68 @@
 
 #ifndef CONTAINER_DEFINE
 #include <stddef.h>
-#define CONTAINER_DEFINE(data_type) \
+#define CONTAINER_DEFINE(dtype) \
     typedef struct { \
-        data_type *array; \
+        dtype *array; \
         size_t size; \
         size_t capacity; \
-    } container_t;\
+    } container_##dtype##_t; \
     \
-    container_t container_new(size_t size); \
-    void container_delete(container_t container); \
+    container_##dtype##_t container_##dtype##_new(size_t size); \
+    void container_##dtype##_delete(container_##dtype##_t container); \
     \
-    data_type container_get_element(size_t index, container_t container); \
-    void container_set_element(size_t index, data_type value, container_t container); \
+    dtype container_##dtype##_get_element(size_t index, \
+            container_##dtype##_t container); \
+    void container_##dtype##_set_element(size_t index, dtype value, \
+            container_##dtype##_t container); \
     \
-    void container_resize(size_t size, container_t *container); \
-    static size_t container_compute_required_capacity(container_t container); \
+    void container_##dtype##_resize(size_t size, \
+            container_##dtype##_t *container); \
+    static size_t container_##dtype##_compute_required_capacity( \
+            container_##dtype##_t container); \
     \
-    container_t container_new(size_t size) \
+    container_##dtype##_t container_##dtype##_new(size_t size) \
     { \
-        container_t container; \
+        container_##dtype##_t container; \
         container.capacity = 0; \
         container.size = size; \
         \
-        container.capacity = container_compute_required_capacity(container); \
-        container.array = CONTAINER_MALLOC(container.capacity * sizeof(data_type)); \
+        container.capacity = container_##dtype##_compute_required_capacity( \
+                container); \
+        container.array = CONTAINER_MALLOC(container.capacity * \
+                sizeof(dtype)); \
         \
         return container; \
     } \
     \
-    void container_delete(container_t container) \
+    void container_##dtype##_delete(container_##dtype##_t container) \
     { \
         CONTAINER_FREE(container.array); \
     } \
     \
-    data_type container_get_element(size_t index, container_t container) \
+    dtype container_##dtype##_get_element(size_t index, \
+            container_##dtype##_t container) \
     { \
         return container.array[index]; \
     } \
-    void container_set_element(size_t index, data_type value, container_t container) \
+    void container_##dtype##_set_element(size_t index, dtype value, \
+            container_##dtype##_t container) \
     { \
         container.array[index] = value; \
     } \
     \
-    void container_resize(size_t size, container_t *container) \
+    void container_##dtype##_resize(size_t size, \
+            container_##dtype##_t *container) \
     { \
         container->size = size; \
-        container->capacity = container_compute_required_capacity(*container); \
-        container->array = CONTAINER_REALLOC(container->array, container->capacity * sizeof(data_type)); \
+        container->capacity = container_##dtype##_compute_required_capacity( \
+                *container); \
+        container->array = CONTAINER_REALLOC(container->array, \
+                container->capacity * sizeof(dtype)); \
     } \
     \
-    static size_t container_compute_required_capacity(container_t container) \
+    static size_t container_##dtype##_compute_required_capacity( \
+            container_##dtype##_t container) \
     { \
         size_t upper_bound = 1; \
         \
@@ -78,7 +90,5 @@
         return upper_bound; \
     }
 #endif // CONTAINER_DEFINE
-
-
 
 #endif // CONTAINER_H__
