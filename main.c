@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2023 Mihai Zegheru
+ *   MIT licensed
+ */
+
 #include <stdio.h>
 #include "include/container.h"
 

@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2023 Mihai Zegheru
+ *   MIT licensed
+ */
+
 #ifndef CONTAINER_H__
 #define CONTAINER_H__
 
